@@ -1,8 +1,33 @@
-# React + Vite
+# Foody Area
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+It fetches and lists random foods from [The Meal DB](https://www.themealdb.com/). You can filter the incoming foods. You can find out which country the food you like is from, the name and description of the food.
 
-Currently, two official plugins are available:
+## [Live Demo](https://dice-game-ten-liart.vercel.app/)
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+## Preview
+
+<div align="center">
+  <img src="public/img/result/mobile.png" alt="Resim 1" width="30%">
+  <img src="public/img/result/tablet.png" alt="Resim 2" width="50%">
+  <img src="public/img/result/laptop.png" alt="Resim 3" width="80%">
+</div>
+
+## Installation
+
+#### Clone
+
+```
+https://github.com/gorkemuveyk/foody-area.git
+```
+
+#### Package Installation
+
+```
+npm i
+```
+
+#### Start
+
+```
+npm run dev
+```
