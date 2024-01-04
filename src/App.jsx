@@ -6,8 +6,17 @@ import Loading from "./components/Loading/Loading";
 
 const BASE_URL = "https://www.themealdb.com/api/json/v1/1/random.php/";
 
+let filteredButtons = [
+  {
+    name: "All",
+    type: "all",
+  },
+];
+
 function App() {
   const [data, setData] = useState([]);
+  const [filteredData, setFilteredData] = useState([]);
+  const [selectedBtn, setSelectedBtn] = useState("all");
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
 
@@ -18,12 +27,24 @@ function App() {
       try {
         const fetchDataList = [];
 
-        for (let i = 0; i < 10; i++) {
+        for (let i = 0; i < 9; i++) {
           const response = await fetch(BASE_URL);
           const fetchData = await response.json();
           fetchDataList.push(fetchData);
         }
         setData(fetchDataList);
+
+        fetchDataList.map((d) => {
+          const area = d.meals[0].strArea;
+
+          if (!filteredButtons.some((button) => button.name === area)) {
+            filteredButtons.push({
+              name: area,
+              type: area.toLowerCase(),
+            });
+          }
+        });
+        setFilteredData(fetchDataList);
       } catch (error) {
         setError("Unable to fecth data");
       } finally {
@@ -33,6 +54,40 @@ function App() {
 
     fetchFoodData();
   }, []);
+
+  const changeFilter = (type) => {
+    if (type === "all") {
+      setFilteredData(data);
+      setSelectedBtn("all");
+      return;
+    }
+
+    const filteredData = data.filter((food) => {
+      const area = food.meals[0].strArea.toLowerCase();
+      return area === type;
+    });
+
+    setFilteredData(filteredData);
+    setSelectedBtn(type);
+  };
+
+  const searchFood = (searchTerm) => {
+    const lowerCaseSearchTerm = searchTerm.toLowerCase();
+
+    // Eğer arama terimi boş ise, tüm veriyi göster
+    if (lowerCaseSearchTerm === "") {
+      setFilteredData(data);
+      return;
+    }
+
+    // Arama terimine göre filtreleme yap
+    const filteredData = data.filter((food) => {
+      const fd = food.meals[0].strMeal.toLowerCase();
+      return fd.includes(lowerCaseSearchTerm);
+    });
+
+    setFilteredData(filteredData);
+  };
 
   if (error) return <div>{error}</div>;
   if (loading) return <Loading />;
@@ -44,18 +99,29 @@ function App() {
           <span>F</span>oody <span>A</span>rea
         </div>
         <div className="search">
-          <input type="search" placeholder="Search Food.." />
+          <input
+            onChange={(e) => searchFood(e.target.value)}
+            type="search"
+            placeholder="Search Food.."
+          />
         </div>
       </TopContainer>
 
       <FilterContainer>
-        <Button>All</Button>
-        <Button>Breakfast</Button>
-        <Button>Lunch</Button>
-        <Button>Dinner</Button>
+        {filteredButtons.map((button) => {
+          return (
+            <Button
+              selected={selectedBtn === button.type}
+              onClick={() => changeFilter(button.type)}
+              key={button.name}
+            >
+              {button.name}
+            </Button>
+          );
+        })}
       </FilterContainer>
 
-      <SearchResult data={data} />
+      <SearchResult data={filteredData} />
     </Container>
   );
 }
@@ -96,20 +162,29 @@ const TopContainer = styled.section`
       color: #fff;
     }
   }
+
+  @media (0 < width < 768px) {
+    flex-direction: column;
+  }
 `;
 
 const FilterContainer = styled.section`
   display: flex;
   justify-content: center;
+  flex-wrap: wrap;
   gap: 12px;
   padding-bottom: 40px;
+
+  @media (0 < width < 321px) {
+    justify-content: start;
+  }
 `;
 
 export const Button = styled.button`
-  background-color: #ff4343;
+  background-color: ${(props) => (props.selected ? "#e03737" : "#d31d1d")};
+  border: 1px solid transparent;
+  border-color: ${(props) => (props.selected ? "#fff" : "transparent")};
   border-radius: 5px;
   padding: 6px 12px;
-  border: none;
   color: white;
-  cursor: pointer;
 `;

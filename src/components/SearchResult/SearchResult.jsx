@@ -24,8 +24,16 @@ const SearchResult = ({ data: foods }) => {
                 </div>
                 <div className="food-info">
                   <div className="info">
-                    <h3>{food.strMeal}</h3>
-                    <p>{food.strInstructions}</p>
+                    <h3>
+                      {food.strMeal.length > 20
+                        ? `${food.strMeal.substring(0, 20)}...`
+                        : food.strMeal}
+                    </h3>
+                    <p>
+                      {food.strInstructions.length > 50
+                        ? `${food.strInstructions.substring(0, 120)}...`
+                        : food.strInstructions}
+                    </p>
                   </div>
                   <Button>{food.strArea}</Button>
                 </div>
@@ -45,10 +53,11 @@ SearchResult.propTypes = {
 };
 
 const FoodCardContainer = styled.section`
-  height: calc(100vh - 210px);
+  min-height: calc(100vh - 210px);
   background-image: url("/img/bg.jpg");
   background-size: cover;
   filter: grayscale(55%);
+  border-radius: 4px;
 `;
 const FoodCards = styled.div`
   display: flex;
@@ -61,7 +70,7 @@ const FoodCards = styled.div`
 `;
 
 const FoodCard = styled.div`
-  width: 340px;
+  width: 300px;
   height: 167px;
   border: 0.66px solid;
 
@@ -89,9 +98,13 @@ const FoodCard = styled.div`
   border-radius: 20px;
 
   display: flex;
+  justify-content: space-between;
+  align-items: center;
   padding: 8px;
 
   .food-info {
+    width: 150px;
+    height: 150px;
     display: flex;
     flex-direction: column;
     justify-content: space-between;
@@ -112,7 +125,7 @@ const FoodCard = styled.div`
 
   .food-image {
     position: relative;
-
+    width: 100px;
     img {
       width: 100%;
       border-radius: 50%;
