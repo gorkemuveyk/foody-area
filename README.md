@@ -17,7 +17,7 @@ It fetches and lists random foods from [The Meal DB](https://www.themealdb.com/)
 #### Clone
 
 ```
-https://github.com/gorkemuveyk/foody-area.git
+git clone https://github.com/gorkemuveyk/foody-area.git
 ```
 
 #### Package Installation
