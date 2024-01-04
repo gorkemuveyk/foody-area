@@ -2,7 +2,7 @@
 
 It fetches and lists random foods from [The Meal DB](https://www.themealdb.com/). You can filter the incoming foods. You can find out which country the food you like is from, the name and description of the food.
 
-## [Live Demo](https://dice-game-ten-liart.vercel.app/)
+## [Live Demo](https://foody-area.vercel.app/)
 
 ## Preview
 
